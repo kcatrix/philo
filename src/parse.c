@@ -6,7 +6,7 @@
 /*   By: kevyn <kevyn@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 14:13:54 by operculesan       #+#    #+#             */
-/*   Updated: 2022/03/24 15:49:30 by kevyn            ###   ########.fr       */
+/*   Updated: 2022/03/24 16:26:59 by kevyn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,20 @@ void	init_struct(int argc, char **argv, t_philo *P)
 	P->number_of_philo = ft_atoi(argv[1]);
 	P->philo = malloc(sizeof(t_philo_i) * P->number_of_philo);
 	P->time_to_die = ft_atoi(argv[2]);
+	init_struct_philo(P);
+	P->time_to_eat = ft_atoi(argv[3]);
+	P->time_to_sleep = ft_atoi(argv[4]);
+	if (argc == 6)
+		P->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
+	else
+		P->number_of_times_each_philosopher_must_eat = 99999999;
+}
+
+void	init_struct_philo(t_philo *P)
+{
+	int	i;
+
+	i = 0;
 	while (i != P->number_of_philo)
 	{
 		P->philo[i].th = malloc(sizeof(pthread_t));
@@ -63,12 +77,6 @@ void	init_struct(int argc, char **argv, t_philo *P)
 		pthread_mutex_init(&P->philo[i].fork, NULL);
 		P->philo[i++].action = 0;
 	}
-	P->time_to_eat = ft_atoi(argv[3]);
-	P->time_to_sleep = ft_atoi(argv[4]);
-	if (argc == 6)
-		P->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
-	else
-		P->number_of_times_each_philosopher_must_eat = 99999999;
 }
 
 long	get_time(void)
@@ -79,4 +87,16 @@ long	get_time(void)
 	gettimeofday(&te, NULL);
 	milliseconds = te.tv_sec * 1000LL + te.tv_usec / 1000;
 	return (milliseconds);
+}
+
+void	fork_unlock(t_philo_i *p)
+{
+	int	i;
+
+	i = p->i;
+	if (i == p->pi->number_of_philo - 1)
+		i = -1;
+	i++;
+	pthread_mutex_unlock(&p->pi->philo[i].fork);
+	pthread_mutex_unlock(&p->fork);
 }

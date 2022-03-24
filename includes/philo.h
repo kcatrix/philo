@@ -6,7 +6,7 @@
 /*   By: kevyn <kevyn@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 14:45:36 by kevyn             #+#    #+#             */
-/*   Updated: 2022/03/24 15:39:24 by kevyn            ###   ########.fr       */
+/*   Updated: 2022/03/24 16:24:53 by kevyn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ void	dodo(t_philo_i *p);
 void	ft_usleep(long time);
 void	die(t_philo_i *p);
 void	clean(t_philo_i *p);
+void	init_struct_philo(t_philo *P);
 int		ft_atoi(const char *str);
 int		parse(int argc, char **argv);
+void	fork_lock(t_philo_i *p);
+void	fork_unlock(t_philo_i *p);
 
 #endif

@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kcatrix <kcatrix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kevyn <kevyn@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 13:06:56 by operculesan       #+#    #+#             */
-/*   Updated: 2022/03/15 11:41:57 by kcatrix          ###   ########.fr       */
+/*   Updated: 2022/03/24 15:56:57 by kevyn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_philo P;
-	int	i;
+	t_philo	p;
+	int		i;
 
-	i = philo(argc, argv, &P);
+	i = philo(argc, argv, &p);
 	if (i != 0)
 		get_error(i);
 	return (0);
