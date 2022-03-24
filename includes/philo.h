@@ -6,7 +6,7 @@
 /*   By: kevyn <kevyn@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 14:45:36 by kevyn             #+#    #+#             */
-/*   Updated: 2022/03/24 11:37:12 by kevyn            ###   ########.fr       */
+/*   Updated: 2022/03/24 15:39:24 by kevyn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,16 @@
 # include <time.h>
 # include <sys/time.h>
 
-struct s_philo;
+struct	s_philo;
 
 typedef struct s_philo_inside
 {
-	int 			i;
-	pthread_t 		th;
-	pthread_mutex_t fork;
+	int				i;
+	pthread_t		th;
+	pthread_mutex_t	fork;
 	int				action;
 	int				die;
- 	struct s_philo 	*P;
+	struct s_philo	*pi;
 }	t_philo_i;
 
 typedef struct s_philo
@@ -44,7 +44,7 @@ typedef struct s_philo
 	int				time_to_sleep;
 	int				number_of_times_each_philosopher_must_eat;
 	long long		time;
-	pthread_mutex_t mutex;
+	pthread_mutex_t	mutex;
 	int				death;
 	t_philo_i		*philo;
 }	t_philo;
@@ -54,14 +54,14 @@ void	init_struct(int argc, char **argv, t_philo *P);
 char	get_error(int i);
 size_t	ft_strlen(const char *s);
 long	get_time(void);
-int 	eat(t_philo_i *p);
+int		eat(t_philo_i *p);
 int		ft_isdigit(int c);
-void 	*action(void *arg);
+void	*action(void *arg);
 void	dodo(t_philo_i *p);
 void	ft_usleep(long time);
 void	die(t_philo_i *p);
 void	clean(t_philo_i *p);
 int		ft_atoi(const char *str);
-int 	parse(int argc, char **argv);
+int		parse(int argc, char **argv);
 
 #endif

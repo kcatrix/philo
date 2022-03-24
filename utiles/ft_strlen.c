@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: operculesanguinaire <operculesanguinair    +#+  +:+       +#+        */
+/*   By: kevyn <kevyn@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:03:14 by jbuan             #+#    #+#             */
-/*   Updated: 2022/03/07 14:50:52 by operculesan      ###   ########.fr       */
+/*   Updated: 2022/03/24 15:35:05 by kevyn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-
 
 size_t	ft_strlen(const char *s)
 {
