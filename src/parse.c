@@ -6,7 +6,7 @@
 /*   By: kevyn <kevyn@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 14:13:54 by operculesan       #+#    #+#             */
-/*   Updated: 2022/03/22 13:08:14 by kevyn            ###   ########.fr       */
+/*   Updated: 2022/03/24 10:29:57 by kevyn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	init_struct(int argc, char **argv, t_philo *P)
 	time = get_time();
 	P->time = time;
 	P->i = 0;
+	P->fin = 0;
+	P->death = 0;
 	P->number_of_philo = ft_atoi(argv[1]);
 	P->philo = malloc(sizeof(t_philo_i) * P->number_of_philo);
 	P->time_to_die = ft_atoi(argv[2]);
@@ -66,7 +68,7 @@ void	init_struct(int argc, char **argv, t_philo *P)
 	if (argc == 6)
 		P->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
 	else
-		P->number_of_times_each_philosopher_must_eat = 999999;
+		P->number_of_times_each_philosopher_must_eat = 99999999;
 
 }
 

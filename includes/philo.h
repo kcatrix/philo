@@ -6,7 +6,7 @@
 /*   By: kevyn <kevyn@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 14:45:36 by kevyn             #+#    #+#             */
-/*   Updated: 2022/03/22 12:34:30 by kevyn            ###   ########.fr       */
+/*   Updated: 2022/03/24 11:37:12 by kevyn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_philo_inside
 typedef struct s_philo
 {
 	int				i;
+	int				fin;
 	int				number_of_philo;
 	int				time_to_die;
 	int				time_to_eat;
@@ -44,6 +45,7 @@ typedef struct s_philo
 	int				number_of_times_each_philosopher_must_eat;
 	long long		time;
 	pthread_mutex_t mutex;
+	int				death;
 	t_philo_i		*philo;
 }	t_philo;
 
@@ -56,7 +58,8 @@ int 	eat(t_philo_i *p);
 int		ft_isdigit(int c);
 void 	*action(void *arg);
 void	dodo(t_philo_i *p);
-int		die(t_philo_i *p);
+void	ft_usleep(long time);
+void	die(t_philo_i *p);
 void	clean(t_philo_i *p);
 int		ft_atoi(const char *str);
 int 	parse(int argc, char **argv);

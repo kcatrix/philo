@@ -6,7 +6,7 @@
 /*   By: kevyn <kevyn@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 13:30:28 by operculesan       #+#    #+#             */
-/*   Updated: 2022/03/22 14:32:05 by kevyn            ###   ########.fr       */
+/*   Updated: 2022/03/24 11:40:41 by kevyn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void* car(void* arg) {
 */
 int philo(int argc, char* argv[], t_philo *P) 
 {   
-
     if (parse(argc, argv) != 0)
         return(parse(argc, argv));
     init_struct(argc, argv, P);
@@ -89,16 +88,15 @@ void *action(void *arg)
 	int i;
 
 	i = 0;
-	while (die(p) == 0 && i < p->P->number_of_times_each_philosopher_must_eat)
+	while (p->P->death == 0 && i < p->P->number_of_times_each_philosopher_must_eat)
 	{
-		if (eat(p) == 1)
-		{
-			printf("ok break\n");
-			break ;
-		}
-		dodo(p);
+		if (p->P->death == 0)
+			eat(p);
+		if (p->P->death == 0)
+			dodo(p);
 		i++;
 	}
+	p->P->fin++;
 	return (0);
 }
 
@@ -112,18 +110,21 @@ int eat(t_philo_i *p)
 	i++;
 	pthread_mutex_lock(&p->fork);
 	pthread_mutex_lock(&p->P->philo[i].fork);
-	printf("%lld ms %d has taken fork\n", get_time() - p->P->time, p->i);
-	printf("%lld ms %d has taken fork to %d\n", get_time() - p->P->time, p->i, i);
-	printf("%lld ms %d is eating\n", get_time() - p->P->time, p->i);
-	usleep(p->P->time_to_eat * 1000);
-	if (die(p) == 1)
+	if (p->P->death == 0)
 	{
-		printf("ok break\n");
-		return (1);
+		printf("%lld ms %d has taken fork\n", get_time() - p->P->time, p->i);
+		printf("%lld ms %d has taken fork to %d\n", get_time() - p->P->time, p->i, i);
+		printf("%lld ms %d is eating\n", get_time() - p->P->time, p->i);
 	}
+	if (p->P->death == 0)
+		die(p);
+	ft_usleep(p->P->time_to_eat * 1000);
+	if (p->P->death == 0)
+		die(p);
 	//printf("philo = %d\n", p->i);
 	//printf("philo + 1 = %d\n", i);
-	printf("%lld ms %d end to eat\n", get_time() - p->P->time, p->i);
+	if (p->P->death == 0)
+		printf("%lld ms %d end to eat\n", get_time() - p->P->time, p->i);
 	p->die += p->P->time_to_die;
 	pthread_mutex_unlock(&p->P->philo[i].fork);
 	pthread_mutex_unlock(&p->fork);
@@ -133,40 +134,53 @@ int eat(t_philo_i *p)
 void	dodo(t_philo_i *p)
 {
 	printf("%lld ms %d is sleeping\n", get_time() - p->P->time, p->i);
-	usleep(p->P->time_to_sleep * 1000);
-	printf("%lld ms %d is to wake up\n", get_time() - p->P->time, p->i);
+	if (p->P->death == 0)
+		die(p);
+	ft_usleep(p->P->time_to_sleep * 1000);
+	if (p->P->death == 0)
+		die(p);
+	if (p->P->death == 0)
+		printf("%lld ms %d is to wake up\n", get_time() - p->P->time, p->i);
 }
 
-int	die(t_philo_i *p)
+void	die(t_philo_i *p)
 {
-	if (get_time() - p->P->time >= p->die)
+	if (get_time() - p->P->time >= p->die && p->P->death == 0)
 	{
 		printf("%lld ms %d died\n", get_time() - p->P->time, p->i);
-		clean(p);
-		return (1);
+		p->P->death++;
 	}
-	return (0); 
 }
 
 void	clean(t_philo_i *p)
 {
-	pthread_mutex_lock(&p->P->mutex);
+	printf("hello clean \n");
+	//pthread_mutex_lock(&p->P->mutex);
 	int i;
 
 	i = 0;
 	while (i < p->P->number_of_philo)
 	{
 		pthread_join(p->P->philo[i++].th, NULL);
-		printf("i = %d\n", i);
-		printf("number philo %d\n", p->P->number_of_philo);
 	}
-	pthread_mutex_unlock(&p->P->mutex);
+	//pthread_mutex_unlock(&p->P->mutex);
 	i = 0;
-	while (i < p->P->number_of_philo)
-		pthread_mutex_destroy(&p->P->philo[i++].fork);
-	printf("clean ?? \n");
-	pthread_mutex_destroy(&p->P->mutex);
-	free(p->P->philo);
-	printf("clean ok \n");
-	
+	if (p->P->fin == p->P->number_of_philo || p->P->death > 0)
+	{
+		while (i < p->P->number_of_philo)
+			pthread_mutex_destroy(&p->P->philo[i++].fork);
+		pthread_mutex_destroy(&p->P->mutex);
+		free(p->P->philo);
+	}	
+}
+
+void	ft_usleep(long time)
+{
+	long	reference_time;
+
+	reference_time = get_time();
+	while (get_time() - reference_time < time)
+	{
+		usleep(time);
+	}
 }
