@@ -6,7 +6,7 @@
 /*   By: kevyn <kevyn@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 13:30:28 by operculesan       #+#    #+#             */
-/*   Updated: 2022/03/24 11:40:41 by kevyn            ###   ########.fr       */
+/*   Updated: 2022/03/24 11:52:45 by kevyn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ void *action(void *arg)
 			eat(p);
 		if (p->P->death == 0)
 			dodo(p);
+		if (p->P->death == 0)
+			printf("%lld ms %d is thinking\n", get_time() - p->P->time, p->i + 1);
 		i++;
 	}
 	p->P->fin++;
@@ -118,7 +120,7 @@ int eat(t_philo_i *p)
 	}
 	if (p->P->death == 0)
 		die(p);
-	ft_usleep(p->P->time_to_eat * 1000);
+	ft_usleep(p->P->time_to_eat);
 	if (p->P->death == 0)
 		die(p);
 	//printf("philo = %d\n", p->i);
@@ -136,7 +138,7 @@ void	dodo(t_philo_i *p)
 	printf("%lld ms %d is sleeping\n", get_time() - p->P->time, p->i);
 	if (p->P->death == 0)
 		die(p);
-	ft_usleep(p->P->time_to_sleep * 1000);
+	ft_usleep(p->P->time_to_sleep);
 	if (p->P->death == 0)
 		die(p);
 	if (p->P->death == 0)
@@ -181,6 +183,6 @@ void	ft_usleep(long time)
 	reference_time = get_time();
 	while (get_time() - reference_time < time)
 	{
-		usleep(time);
+		usleep(time * 1000);
 	}
 }
