@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kevyn <kevyn@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kcatrix <kcatrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 13:30:28 by operculesan       #+#    #+#             */
-/*   Updated: 2022/03/24 16:34:28 by kevyn            ###   ########.fr       */
+/*   Updated: 2022/03/25 14:16:02 by kcatrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,18 @@ int	philo(int argc, char *argv[], t_philo *P)
 		return (parse(argc, argv));
 	init_struct(argc, argv, P);
 	pthread_mutex_init(&P->mutex, NULL);
-	while (P->i < P->number_of_philo)
+	if (ft_atoi(argv[1]) > 1)
 	{
-		pthread_create(&P->philo[P->i].th, NULL, &action, &P->philo[P->i]);
-		P->i++;
-		pthread_detach(P->philo[P->i].th);
+		while (P->i < P->number_of_philo)
+		{
+			pthread_create(&P->philo[P->i].th, NULL, &action, &P->philo[P->i]);
+			P->i++;
+			pthread_detach(P->philo[P->i].th);
+		}
+		clean(P->philo);
 	}
-	clean(P->philo);
+	else
+		printf("0 1 is died\n");
 	return (0);
 }
 
@@ -45,7 +50,7 @@ void	*action(void *arg)
 		if (p->pi->death == 0)
 			dodo(p);
 		if (p->pi->death == 0)
-			printf("%lld ms %d is thinking\n",
+			printf("%lld %d is thinking\n",
 				get_time() - p->pi->time, p->i + 1);
 		ft_usleep(0);
 		i++;
@@ -72,7 +77,6 @@ void	clean(t_philo_i *p)
 		}
 		pthread_mutex_destroy(&p->pi->mutex);
 		free(p->pi->philo);
-		printf("maxi chibre \n");
 	}	
 }
 
@@ -83,7 +87,7 @@ void	ft_usleep(long time)
 	reference_time = get_time();
 	while (get_time() - reference_time < time)
 	{
-		usleep(time * 1000);
+		usleep(time * 10);
 	}
 }
 

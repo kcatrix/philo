@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kevyn <kevyn@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kcatrix <kcatrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 14:13:54 by operculesan       #+#    #+#             */
-/*   Updated: 2022/03/24 16:26:59 by kevyn            ###   ########.fr       */
+/*   Updated: 2022/03/25 11:39:25 by kcatrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	init_struct_philo(t_philo *P)
 	i = 0;
 	while (i != P->number_of_philo)
 	{
-		P->philo[i].th = malloc(sizeof(pthread_t));
 		P->philo[i].i = i;
 		P->philo[i].pi = P;
 		P->philo[i].die = P->time_to_die;
